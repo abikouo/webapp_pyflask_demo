@@ -1,0 +1,15 @@
+{% extends 'head.html' %}
+
+{% block header %}
+  <h1>{% block title %}Create User{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">NAME</label>
+    <input name="name" id="name" required>
+    <label for="password">PASSWORD</label>
+    <input type="password" name="password" id="password" required>
+    <input type="submit" value="Create">
+  </form>
+{% endblock %}

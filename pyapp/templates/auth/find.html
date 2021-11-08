@@ -1,0 +1,13 @@
+{% extends 'head.html' %}
+
+{% block header %}
+  <h1>{% block title %}Find User{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">NAME</label>
+    <input name="name" id="name">
+    <input type="submit" value="Find">
+  </form>
+{% endblock %}
