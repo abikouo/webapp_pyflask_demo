@@ -1,28 +1,32 @@
 {% extends 'head.html' %}
 
+{% block header %}
+  {% block title %}
+    <table style="width:70%">
+      <tr>
+        <th>DataBase Host</th>
+        <th>DataBase Instance</th>
+      </tr>
+      <tr>
+        <td>{{ database['host'] }}</td>
+        <td>{{ database['instance'] }}</td>
+      </tr>
+    </table>
+    <hr style="width:80%;text-align:left;margin-left:0;color:black">
+  {% endblock %}
+{% endblock %}
+
 {% block content %}
-  {% if dbinfo %}
-    <article class="DATABASE INFO">
-    <header>
-        <div>
-        <h1>Server FQDN: {{ dbinfo['host'] }}</h1>
-        </div>
-    </header>
-    </article>
-    <hr>
-  {% endif %}
-  {% if workers_up %}
-    {% for worker in workers_up %}
-        <article class="Users">
-        <header>
-            <div>
-            <h1>{{ worker }}</h1>
-            </div>
-        </header>
-        </article>
-        {% if not loop.last %}
-        <hr>
-        {% endif %}
-    {% endfor %}
-  {% endif %}
+{% if workers %}
+<table style="width:70%">
+  <tr>
+    <th>Workers</th>
+  </tr>
+{% for item in workers %}
+  <tr>
+    <td>{{ item }}</td>
+  </tr>
+{% endfor %}
+</table>
+{% endif %}
 {% endblock %}

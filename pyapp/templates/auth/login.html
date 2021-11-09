@@ -1,14 +1,14 @@
 {% extends 'head.html' %}
 
 {% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
+  <h1 style="font-family:verdana;">{% block title %}Log In{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="name">NAME</label>
-    <input name="name" id="name" required>
-    <label for="password">PASSWORD</label>
+    <label for="username">Username</label>
+    <input name="username" id="username" required>
+    <label for="password">Password</label>
     <input type="password" name="password" id="password" required>
     <input type="submit" value="Log In">
   </form>

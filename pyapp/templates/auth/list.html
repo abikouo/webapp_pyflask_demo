@@ -1,0 +1,13 @@
+{% extends 'head.html' %}
+
+{% block header %}
+  <h1 style="font-family:verdana;">{% block title %}Users{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% if users %}
+{% for item in users %}
+  <li><a>{{ item }}</a><br><br>
+{% endfor %}
+{% endif %}
+{% endblock %}

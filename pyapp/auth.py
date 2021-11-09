@@ -5,12 +5,13 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-from pyapp.appinit import get_dbclient
+from pyapp.appinit import get_dbclient, get_host
 
 blue_print = Blueprint('auth', __name__)
 
 @blue_print.route('/create', methods=('GET', 'POST'))
 def create():
+    get_host()
     if request.method == 'POST':
         username = request.form['name']
         password = request.form['password']
@@ -27,8 +28,9 @@ def create():
             if error:
                 error = "User creation failed: %s" % error
             else:
-                message = f"User '{username}' successfully created."
-                return redirect(url_for("auth.index"))
+                error = f"User '{username}' successfully created."
+            flash(error)
+            return redirect(url_for("auth.index"))
 
         flash(error)
 
@@ -37,6 +39,7 @@ def create():
 
 @blue_print.route('/delete', methods=('GET', 'POST'))
 def delete():
+    get_host()
     if request.method == 'POST':
         username = request.form['name']
 
@@ -51,38 +54,32 @@ def delete():
             if error:
                 error = "User deletion failed: %s" % error
             else:
-                message = f"User '{username}' successfully deleted."
-                return redirect(url_for("auth.index"))
+                error = f"User '{username}' successfully deleted."
+            flash(error)
+            return redirect(url_for("auth.index"))
+
         flash(error)
 
     return render_template('auth/delete.html')
 
-@blue_print.route('/find', methods=('GET', 'POST'))
-def find():
-    if request.method == 'POST':
-
-        client = get_dbclient()
-        all_users, error = client.read("SELECT name from users WHERE admin = 'no';", all=True)
-        if not error:
-            username = request.form['name']
-            users = []
-            if all_users:
-                users = [x[0] for x in all_users]
-                if username:
-                    users = [x for x in all_users if re.match(username, x[0])]
-                    if users == []:
-                        users = [x for x in all_users if x[0] == username]
-            return render_template("auth/index.html", users=users)
-
-        flash(error)
-
-    return render_template('auth/find.html')
+@blue_print.route('/list', methods=('GET',))
+def list():
+    get_host()
+    client = get_dbclient()
+    all_users, error = client.read("SELECT name from users WHERE admin = 'no';", all=True)
+    if not error and all_users:
+        users = [x[0] for x in all_users]
+        return render_template("auth/list.html", users=users)
+    
+    flash(error)
+    return redirect(url_for("auth.index"))
 
 
 @blue_print.route('/login', methods=('GET', 'POST'))
 def login():
+    get_host()
     if request.method == 'POST':
-        username = request.form['name']
+        username = request.form['username']
         password = request.form['password']
         
         client = get_dbclient()
@@ -117,10 +114,12 @@ def get_user_info():
 
 @blue_print.route('/logout')
 def logout():
+    get_host()
     session.clear()
     return redirect(url_for('index'))
 
 @blue_print.route("/")
 def index():
     users = []
-    return render_template("auth/index.html", users=users)
+    get_host()
+    return render_template("head.html")

@@ -4,13 +4,14 @@ from flask import (
     Blueprint, flash, render_template, current_app
 )
 
-from pyapp.appinit import get_dbclient
+from pyapp.appinit import get_dbclient, get_host
 from pyapp.db import DBClient
 
 blue_print = Blueprint('infra', __name__)
 
 @blue_print.route('/display', methods=('GET',))
 def display():
+    get_host()
     client = get_dbclient()
     workers, error = client.read("SELECT hostname, last_updated from health_check;", all=True)
     if not error:
@@ -26,10 +27,10 @@ def display():
                     'name': row[0], 'down_time': age
                 })
         db_info = {
-            'host': current_app.config.get('DATABASE_HOST'),
-            'dbname': current_app.config.get('DATABASE_INSTANCE'),
+            'host': "%s.postgres.database.azure.com" % current_app.config.get('DATABASE_HOST'),
+            'instance': current_app.config.get('DATABASE_INSTANCE'),
         }
-        return render_template("infra/display.html", workers_up=workers_up, workers_down=workers_down, dbinfo=db_info)
+        return render_template("infra/display.html", workers=workers_up, database=db_info)
 
     flash(error)
 
@@ -43,7 +44,5 @@ def send_health_check(dbhost, dbname, db_user, db_user_password, hostname):
     error = send_health_check.client.write(query)
     if error:
         print(error)
-    else:
-        print(f"Health check ({hostname}) at ({current_datetime}) => \033[;32mOK\033[0m")
 
 send_health_check.client = None

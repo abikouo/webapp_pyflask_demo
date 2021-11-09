@@ -1,24 +1,40 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} Ansible Cloud Demo WebApp</title>
+<title>{% block title %}{% endblock %}Python WebApp Sample</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-  <h1><a href="{{ url_for('index') }}">Ansible Azure WebApp Demo</a></h1>
+  <h1><a></a></h1>
   <ul>
     {% if g.user %}
       <li><span>{{ g.user['name'] }}</span>
-      <li><a href="{{ url_for('infra.display') }}">Infrastructure</a>
-      <li><a href="{{ url_for('auth.create') }}">Create User</a>
-      <li><a href="{{ url_for('auth.delete') }}">Delete User</a>
-      <li><a href="{{ url_for('auth.find') }}">Find User</a>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
     {% else %}
       <li><a href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
   </ul>
 </nav>
+<body>
+  {% if g.host %}
+  <center><h1 style="font-family:verdana;">{{ g.host }}</h1></center>
+  <hr style="height:4px;border-width:0;color:black;background-color:black">
+  {% endif %}
+</body>
+<body>
+  {% if g.user %}
+    <li><a href="{{ url_for('infra.display') }}">Infrastructure</a><br><br>
+    <!-- <hr style="width:20%;text-align:left;margin-left:0;color:black"> -->
+    <li><a href="{{ url_for('auth.create') }}">Create User</a><br><br>
+    <!-- <hr style="width:20%;text-align:left;margin-left:0;color:black"> -->
+    <li><a href="{{ url_for('auth.delete') }}">Delete User</a><br><br>
+    <!-- <hr style="width:20%;text-align:left;margin-left:0;color:black"> -->
+    <li><a href="{{ url_for('auth.list') }}">List Users</a>
+    <hr style="height:4px;border-width:0;color:black;background-color:black">
+  {% endif %}
+</body>
 <section class="content">
   <header>
+    <section>
     {% block header %}{% endblock %}
+      </section>
   </header>
   {% for error in get_flashed_messages() %}
     <div class="flash">{{ error }}</div>
