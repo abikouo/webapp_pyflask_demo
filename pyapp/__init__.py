@@ -42,7 +42,7 @@ def start_server():
             'dbname': os.environ['DATABASE_INSTANCE'],
             'db_user': os.environ['DATABASE_USER'],
             'db_user_password': os.environ['DATABASE_PASSWORD'],
-            'hostname': os.environ['WORKER_HOSTNAME'],
+            'hostname': os.environ['WORKER_HOSTNAME'].replace('host_', ''),
         }
         
         while True:
