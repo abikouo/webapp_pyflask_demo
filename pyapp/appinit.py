@@ -48,8 +48,6 @@ def init_db(drop_existing=False):
 
     admin_user = current_app.config['ADMIN_USER']
     admin_password = current_app.config['ADMIN_PASSWORD']
-    worker_hostname = current_app.config['WORKER_HOSTNAME']
-    current_datetime = datetime.now(timezone.utc)
     
     queries = [
         """
@@ -75,9 +73,6 @@ def init_db(drop_existing=False):
         """,
         f"""
         INSERT INTO users (name, password, admin) VALUES ('{admin_user}', '{admin_password}', TRUE);
-        """,
-        f"""
-        INSERT INTO health_check (hostname, last_updated) VALUES ('{worker_hostname}', TIMESTAMP '{current_datetime}');
         """
     ]
     error = client.write(queries)

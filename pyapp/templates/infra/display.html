@@ -2,31 +2,22 @@
 
 {% block header %}
   {% block title %}
-    <table style="width:70%">
-      <tr>
-        <th>DataBase Host</th>
-        <th>DataBase Instance</th>
-      </tr>
-      <tr>
-        <td>{{ database['host'] }}</td>
-        <td>{{ database['instance'] }}</td>
-      </tr>
-    </table>
+    <h1 style="font-family:verdana; font-size: 16pt;">DataBase</h1>
+    <ul>
+    <li style="font-family:verdana; font-size: 14pt;">Hostname: {{ database['host'] }}</li>
+    <li style="font-family:verdana; font-size: 14pt;">Instance: {{ database['instance'] }}</li>
+    </ul>
     <hr style="width:80%;text-align:left;margin-left:0;color:black">
   {% endblock %}
 {% endblock %}
 
 {% block content %}
 {% if workers %}
-<table style="width:70%">
-  <tr>
-    <th>Workers</th>
-  </tr>
+<h1 style="font-family:verdana; font-size: 16pt;">Workers</h1>
+<ol>
 {% for item in workers %}
-  <tr>
-    <td>{{ item }}</td>
-  </tr>
+<li style="font-family:verdana; font-size: 14pt; color: blue;">{{ item }}</li>
 {% endfor %}
-</table>
+</ol>
 {% endif %}
 {% endblock %}

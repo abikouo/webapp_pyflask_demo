@@ -46,5 +46,8 @@ def start_server():
         }
         
         while True:
-            infra.send_health_check(**params)
-            time.sleep(0.5)
+            try:
+                infra.send_health_check(**params)
+                time.sleep(0.5)
+            except Exception as e:
+                print("send_health_check: %s" % e)
