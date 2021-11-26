@@ -3,11 +3,13 @@ from flask import (
     Blueprint, flash, render_template, current_app
 )
 import requests
+from pyapp.appinit import get_host
 
 blue_print = Blueprint('infra', __name__)
 
 @blue_print.route('/display', methods=('GET',))
 def display():
+    get_host()
     workers = []
     try:
         for h in current_app.config.get("WORKERS_HOSTS").split(","):
@@ -23,8 +25,8 @@ def display():
     except Exception as err:
         flash(err)
     return render_template("infra/display.html",
-                            active_workers=0,
-                            workers=workers,
+                            active_workers=len(workers),
+                            workers=workers[0:min(5, len(workers))],
                             database={
                                 'host': "%s.postgres.database.azure.com" % current_app.config.get('DATABASE_HOST'),
                                 'instance': current_app.config.get('DATABASE_INSTANCE'),
