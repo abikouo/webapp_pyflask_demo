@@ -6,25 +6,20 @@ import requests
 
 blue_print = Blueprint('infra', __name__)
 
-def ping_controller():
-    try:
-        response = requests.get("%s:5000/api/v1/hosts" % current_app.config.get("CONTROLLER_HOST"))
-        print("Response: %s" % response.status_code)
-        if response.status_code == 200:
-            return json.loads(response.content), None
-        else:
-            return None, None
-    except Exception as err:
-        return None, err
-
-
 @blue_print.route('/display', methods=('GET',))
 def display():
     workers = []
     try:
-        response = requests.get("%s:5000/api/v1/hosts" % current_app.config.get("CONTROLLER_HOST"))
-        if response.status_code == 200:
-            workers = json.loads(response.content)
+        for h in current_app.config.get("WORKERS_HOSTS").split(","):
+            if h == "":
+                continue
+            v = h.split(":")
+            if v[0] == current_app.config.get("WORKER_HOSTNAME"):
+                workers.append(v[0])
+            else:
+                response = requests.get("%s:5000/" % v[1])
+                if response.status_code == 200:
+                    workers.append(v[0])
     except Exception as err:
         flash(err)
     return render_template("infra/display.html",

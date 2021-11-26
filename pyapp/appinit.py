@@ -13,7 +13,7 @@ required_env_vars = (
     'ADMIN_USER',
     'ADMIN_PASSWORD',
     'WORKER_HOSTNAME',
-    'CONTROLLER_HOST'
+    'WORKERS_HOSTS'
 )
 
 def get_dbclient(force=False):
