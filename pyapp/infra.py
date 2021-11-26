@@ -17,7 +17,7 @@ def display():
             if v[0] == current_app.config.get("WORKER_HOSTNAME"):
                 workers.append(v[0])
             else:
-                response = requests.get("%s:5000/" % v[1])
+                response = requests.get("http://%s:5000/" % v[1])
                 if response.status_code == 200:
                     workers.append(v[0])
     except Exception as err:
