@@ -6,9 +6,14 @@ from datetime import datetime, timezone
 from . import db
 
 required_env_vars = (
-    'DATABASE_HOST', 'DATABASE_INSTANCE', 'DATABASE_USER',
-    'DATABASE_PASSWORD', 'ADMIN_USER', 'ADMIN_PASSWORD',
-    'WORKER_HOSTNAME'
+    'DATABASE_HOST',
+    'DATABASE_INSTANCE',
+    'DATABASE_USER',
+    'DATABASE_PASSWORD',
+    'ADMIN_USER',
+    'ADMIN_PASSWORD',
+    'WORKER_HOSTNAME',
+    'CONTROLLER_HOST'
 )
 
 def get_dbclient(force=False):
@@ -54,21 +59,11 @@ def init_db(drop_existing=False):
         DROP TABLE IF EXISTS users;
         """,
         """
-        DROP TABLE IF EXISTS health_check;
-        """,
-        """
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             name TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
             admin BOOLEAN NOT NULL
-        );
-        """,
-        """
-        CREATE TABLE IF NOT EXISTS health_check (
-            id SERIAL PRIMARY KEY,
-            hostname TEXT UNIQUE NOT NULL,
-            last_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         """,
         f"""

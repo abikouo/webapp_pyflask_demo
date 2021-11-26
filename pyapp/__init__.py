@@ -28,26 +28,5 @@ def create_app():
     return app
 
 def start_server():
-    pid = os.fork()
-
-    if pid > 0:
-        # parent process, listening server
-        app = create_app()
-        app.run(debug=True, host='0.0.0.0')
-    
-    else:
-        # child process, send health check to the database
-        params = {
-            'dbhost': os.environ['DATABASE_HOST'],
-            'dbname': os.environ['DATABASE_INSTANCE'],
-            'db_user': os.environ['DATABASE_USER'],
-            'db_user_password': os.environ['DATABASE_PASSWORD'],
-            'hostname': os.environ['WORKER_HOSTNAME'].replace('host_', ''),
-        }
-        
-        while True:
-            try:
-                infra.send_health_check(**params)
-                time.sleep(0.5)
-            except Exception as e:
-                print("send_health_check: %s" % e)
+    app = create_app()
+    app.run(debug=True, host='0.0.0.0')

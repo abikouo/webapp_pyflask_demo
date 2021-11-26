@@ -13,7 +13,7 @@
 
 {% block content %}
 {% if workers %}
-<h1 style="font-family:verdana; font-size: 16pt;">Workers</h1>
+<h1 style="font-family:verdana; font-size: 16pt;">Workers: {{ active_workers }} active workers (Max displayed = 5)</h1>
 <ol>
 {% for item in workers %}
 <li style="font-family:verdana; font-size: 14pt; color: blue;">{{ item }}</li>
