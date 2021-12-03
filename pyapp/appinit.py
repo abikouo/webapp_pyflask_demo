@@ -30,7 +30,8 @@ def get_dbclient(force=False):
 
 def get_host():
     if 'host' not in g:
-        g.host = current_app.config.get('WORKER_HOSTNAME').replace('host_', '')
+        if current_app.config.get('WORKER_HOSTNAME') is not None:
+            g.host = current_app.config.get('WORKER_HOSTNAME').replace('host_', '')
 
 
 def close_dbclient(e=None):
