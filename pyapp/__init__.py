@@ -16,7 +16,8 @@ def create_app():
                 containerized = True
             else:
                 raise ValueError("missing {0} from environment, unable to start server.".format(env_var))
-        params[env_var] = os.environ[env_var]
+        else:
+            params[env_var] = os.environ[env_var]
 
     app.config.from_mapping(**params)
 
