@@ -15,8 +15,10 @@
 <body>
   {% if g.host %}
   <center><h1 style="font-family:verdana;">{{ g.host }}</h1></center>
-  <hr style="height:4px;border-width:0;color:black;background-color:black">
+  {% else %}
+  <center><h1 style="font-family:verdana;">Running from Container</h1></center>
   {% endif %}
+  <hr style="height:4px;border-width:0;color:black;background-color:black">
   {% if g.time %}
   <center><h1 style="font-size: 22px">DB Response time<h1 style="font-family:verdana;font-size: 22px;color:green">{{ g.time }}</h1></h1></center>
   <hr style="height:4px;border-width:0;color:black;background-color:black">
