@@ -24,7 +24,7 @@
 </body>
 <body>
   {% if g.user %}
-    {% if g.containerized %}
+    {% if g.containerized == false %}
       <li><a href="{{ url_for('infra.display') }}">Infrastructure</a><br><br>
     {% endif %}
     <!-- <hr style="width:20%;text-align:left;margin-left:0;color:black"> -->
