@@ -125,7 +125,6 @@ def get_user_info():
             g.user = {
                 'id': user[0], 'name': user[1], 'password': user[2]
             }
-            g.containerized = current_app.config.get("containerized")
 
 
 @blue_print.route('/logout')
