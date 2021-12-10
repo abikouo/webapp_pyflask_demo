@@ -17,10 +17,16 @@
   <center><h1 style="font-family:verdana;">{{ g.host }}</h1></center>
   <hr style="height:4px;border-width:0;color:black;background-color:black">
   {% endif %}
+  {% if g.time %}
+  <center><h1 style="font-size: 22px">DB Response time<h1 style="font-family:verdana;font-size: 22px;color:green">{{ g.time }}</h1></h1></center>
+  <hr style="height:4px;border-width:0;color:black;background-color:black">
+  {% endif %}
 </body>
 <body>
   {% if g.user %}
-    <li><a href="{{ url_for('infra.display') }}">Infrastructure</a><br><br>
+    {% if g.containerized %}
+      <li><a href="{{ url_for('infra.display') }}">Infrastructure</a><br><br>
+    {% endif %}
     <!-- <hr style="width:20%;text-align:left;margin-left:0;color:black"> -->
     <li><a href="{{ url_for('auth.create') }}">Create User</a><br><br>
     <!-- <hr style="width:20%;text-align:left;margin-left:0;color:black"> -->

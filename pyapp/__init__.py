@@ -19,6 +19,12 @@ def create_app():
         else:
             params[env_var] = os.environ[env_var]
 
+    params.update(
+        dict(
+            containerized=containerized
+        )
+    )
+
     app.config.from_mapping(**params)
 
     app.secret_key = 'ansible secret key'
