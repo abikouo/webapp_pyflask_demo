@@ -26,7 +26,7 @@ def create():
             start = time.time()
             error = client.write("INSERT INTO users (name, password, admin) VALUES ('%s', '%s', FALSE);" % (username, password))
             elapsed = (time.time() - start) * 1000
-            g.time = "Read=%.2fms" % elapsed
+            g.time = "%.2fms" % elapsed
             if error:
                 error = "User creation failed: %s" % error
             else:
@@ -55,7 +55,7 @@ def delete():
             start = time.time()
             error = client.write(query)
             elapsed = (time.time() - start) * 1000
-            g.time = "Read=%.2fms" % elapsed
+            g.time = "%.2fms" % elapsed
             if error:
                 error = "User deletion failed: %s" % error
             else:
@@ -74,7 +74,7 @@ def list():
     start = time.time()
     all_users, error = client.read("SELECT name from users WHERE admin = 'no';", all=True)
     elapsed = (time.time() - start) * 1000
-    g.time = "Read=%.2fms" % elapsed
+    g.time = "%.2fms" % elapsed
     if not error and all_users:
         users = [x[0] for x in all_users]
         return render_template("auth/list.html", users=users)
@@ -94,7 +94,7 @@ def login():
         start = time.time()
         user, error = client.read("SELECT * from users WHERE name='%s';" % username)
         elapsed = (time.time() - start) * 1000
-        g.time = "Read=%.2fms" % elapsed
+        g.time = "%.2fms" % elapsed
         if not user:
             error = "user '%s' does not exist." % username
         else:
@@ -120,7 +120,7 @@ def get_user_info():
         start = time.time()
         user, error = client.read("SELECT * from users WHERE id=%s;" % user_id)
         elapsed = (time.time() - start) * 1000
-        g.time = "Read=%.2fms" % elapsed
+        g.time = "%.2fms" % elapsed
         if user:
             g.user = {
                 'id': user[0], 'name': user[1], 'password': user[2]
