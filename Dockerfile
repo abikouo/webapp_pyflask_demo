@@ -1,4 +1,4 @@
-FROM cctd/flask
+FROM docker.io/cctd/flask
 
 WORKDIR /app
 
