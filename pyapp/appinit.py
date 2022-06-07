@@ -19,7 +19,7 @@ def get_dbclient(force=False):
     if 'client' not in g or force:
         close_dbclient()
         params = {}
-        params['host'] = current_app.config.get('DATABASE_HOST')
+        params['host'] = get_db_hostname()
         params['user'] = current_app.config.get('DATABASE_USER')
         params['db'] = current_app.config.get('DATABASE_INSTANCE')
         params['password'] = current_app.config.get('DATABASE_PASSWORD')
@@ -31,6 +31,13 @@ def get_host():
     if 'host' not in g:
         if current_app.config.get('WORKER_HOSTNAME') is not None:
             g.host = current_app.config.get('WORKER_HOSTNAME').replace('host_', '')
+
+
+def get_db_hostname():
+    dbhost = current_app.config.get('DATABASE_HOST')
+    if dbhost.endswith("rds.amazonaws.com") or dbhost.endswith("postgres.database.azure.com"):
+        return dbhost
+    return "%s.postgres.database.azure.com" % dbhost
 
 
 def close_dbclient(e=None):

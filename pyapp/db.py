@@ -4,9 +4,11 @@ import psycopg2
 class DBClient(object):
 
     def __init__(self, host, user, db, password):
-        azure_user = f"{user}@{host}"
-        azure_host = f"{host}.postgres.database.azure.com"
-        conn_string = f"host={azure_host} user={azure_user} dbname={db} password={password} sslmode='require'"
+        dbuser = user
+        if host.endswith("postgres.database.azure.com"):
+            # specific case for azure db
+            dbuser = f"{user}@{host}"
+        conn_string = f"host={host} user={dbuser} dbname={db} password={password} sslmode='require'"
         self.conn = psycopg2.connect(conn_string)
     
     def close(self):

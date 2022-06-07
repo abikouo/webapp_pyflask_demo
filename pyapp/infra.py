@@ -1,9 +1,8 @@
-import json
 from flask import (
     Blueprint, flash, render_template, current_app
 )
 import requests
-from pyapp.appinit import get_host
+from pyapp.appinit import get_host, get_db_hostname
 
 blue_print = Blueprint('infra', __name__)
 
@@ -28,7 +27,7 @@ def display():
                             active_workers=len(workers),
                             workers=workers[0:min(5, len(workers))],
                             database={
-                                'host': "%s.postgres.database.azure.com" % current_app.config.get('DATABASE_HOST'),
+                                'host': get_db_hostname(),
                                 'instance': current_app.config.get('DATABASE_INSTANCE'),
                             }
                         )
